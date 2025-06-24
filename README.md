@@ -47,11 +47,8 @@ Once the form is submitted:
   * `Enthusiastic`
   * `Skeptical`
   * `Professional`
-  * `Random` (chaotic/troll/meme-style feedback)
 
 * Each prompt is sent to the **OpenAI Chat API**, and responses are collected asynchronously.
-
-* If the `random` persona fails to return a proper response, we retry with a simpler, Gen-Z-style prompt to encourage creativity.
 
 ### 3. **Persona-Based Animated Display**
 
@@ -123,16 +120,6 @@ src/
 3. Install dependencies: `npm install`
 4. Run the app: `npm run dev`
 5. Deploy via Netlify or Vercel
-
----
-
-## 🌱 Future Ideas
-
-* User authentication (save feedback per user)
-* Feedback sentiment analysis
-* Shareable feedback summaries
-* GPT-4 model option
-* Export to PDF/CSV
 
 ---
 

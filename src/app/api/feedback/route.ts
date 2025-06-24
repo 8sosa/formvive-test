@@ -6,6 +6,7 @@ const personas = {
   enthusiastic: "Respond enthusiastically, highlighting positives and excitement.",
   skeptical: "Respond skeptically, questioning usefulness or effectiveness.",
   professional: "Respond in a neutral, analytical tone with constructive insights.",
+  // random: `Give unpredictable, hilarious, and exaggerated feedback like a chaotic internet user. Make it weird but still mention the product.`,
 };
 
 export async function POST(req: NextRequest) {
@@ -39,7 +40,13 @@ export async function POST(req: NextRequest) {
       const data = await response.json();
       const content = data.choices?.[0]?.message?.content;
 
-      if (!content) continue;
+      console.log(`💬 [${personaKey}] →`, content);
+
+      if (!content || typeof content !== "string") {
+        console.warn(`⚠️ No valid response for [${personaKey}]`);
+        continue; // Skip this persona if there's no usable feedback
+      }
+
 
       // Save each persona result
       await supabase.from("feedbacks").insert([

@@ -5,6 +5,7 @@ import FeedbackScreen from "@/components/FeedbackScreen";
 import { AnimatePresence, motion } from "framer-motion";
 
 export default function Home() {
+  const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState<any>(null);
   const [feedback, setFeedback] = useState<
@@ -14,15 +15,16 @@ export default function Home() {
   const handleSubmit = async (data: any) => {
     setFormData(data);
     setSubmitted(true);
-
+    setLoading(true);
     const res = await fetch("/api/feedback", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
-
     const json = await res.json();
+    console.log("🧠 Received feedback:", json.results);
     setFeedback(json.results);
+    setLoading(false);
   };
 
   const handleBack = () => {
@@ -43,6 +45,18 @@ export default function Home() {
             transition={{ duration: 0.3 }}
           >
             <ProductForm onSubmit={handleSubmit} />
+          </motion.div>
+        ) : loading ? (
+          <motion.div
+            key="loading"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="text-center text-gray-600 text-lg"
+          >
+            Generating feedback...
+            <div className="mt-4 animate-pulse text-4xl">⏳</div>
           </motion.div>
         ) : (
           <motion.div

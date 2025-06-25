@@ -3,17 +3,14 @@ import { useState } from "react";
 import ProductForm from "@/components/ProductForm";
 import FeedbackScreen from "@/components/FeedbackScreen";
 import { AnimatePresence, motion } from "framer-motion";
+import { FeedbackItem, ProductFormData } from "@/types";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [formData, setFormData] = useState<any>(null);
-  const [feedback, setFeedback] = useState<
-    { persona: string; feedback: string }[]
-  >([]); 
+  const [feedback, setFeedback] = useState<FeedbackItem[]>([]);
 
-  const handleSubmit = async (data: any) => {
-    setFormData(data);
+  const handleSubmit = async (data: ProductFormData) => {
     setSubmitted(true);
     setLoading(true);
     const res = await fetch("/api/feedback", {
@@ -22,14 +19,12 @@ export default function Home() {
       body: JSON.stringify(data),
     });
     const json = await res.json();
-    console.log("🧠 Received feedback:", json.results);
     setFeedback(json.results);
     setLoading(false);
   };
 
   const handleBack = () => {
     setSubmitted(false);
-    setFormData(null);
     setFeedback([]);
   };
 
@@ -66,11 +61,7 @@ export default function Home() {
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.3 }}
           >
-            <FeedbackScreen
-              data={formData}
-              feedback={feedback}
-              onBack={handleBack}
-            />
+            <FeedbackScreen feedback={feedback} onBack={handleBack} />
           </motion.div>
         )}
       </AnimatePresence>

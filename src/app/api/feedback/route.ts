@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
       const data = await response.json();
       const content = data.choices?.[0]?.message?.content;
 
-      console.log(`💬 [${personaKey}] →`, content);
+      // console.log(`💬 [${personaKey}] →`, content);
 
       if (!content || typeof content !== "string") {
         console.warn(`⚠️ No valid response for [${personaKey}]`);

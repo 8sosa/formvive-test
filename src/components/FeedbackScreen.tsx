@@ -1,11 +1,6 @@
-"use client";
 import { FC, useState } from "react";
 import { motion } from "framer-motion";
-
-type Feedback = {
-  persona: string;
-  feedback: string;
-};
+import type { FeedbackItem } from "@/types";
 
 const avatars: Record<string, string> = {
   enthusiastic: "😄",
@@ -22,10 +17,9 @@ const personaStyles: Record<string, string> = {
 };
 
 const FeedbackScreen: FC<{
-  data: any;
-  feedback: Feedback[];
+  feedback: FeedbackItem[];
   onBack: () => void;
-}> = ({ data, feedback, onBack }) => {
+}> = ({ feedback, onBack }) => {
   const [selectedPersona, setSelectedPersona] = useState<string | null>(null);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
@@ -77,8 +71,8 @@ const FeedbackScreen: FC<{
 
           return (
             <motion.div
-            key={`${item.persona}-${index}`}
-            initial={{ opacity: 0, y: 10 }}
+              key={`${item.persona}-${index}`}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
               className={`p-4 rounded-xl shadow border flex flex-col ${

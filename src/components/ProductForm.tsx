@@ -1,18 +1,18 @@
-"use client";
-import { useState } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
+import type { ProductFormData } from "@/types";
 
-const ProductForm = ({ onSubmit }: { onSubmit: (data: any) => void }) => {
-  const [form, setForm] = useState({
+const ProductForm = ({ onSubmit }: { onSubmit: (data: ProductFormData) => void }) => {
+  const [form, setForm] = useState<ProductFormData>({
     productName: "",
     problem: "",
     audience: "General Users",
   });
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit(form);
   };
